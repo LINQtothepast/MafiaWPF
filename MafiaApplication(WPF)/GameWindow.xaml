@@ -7,25 +7,51 @@
         mc:Ignorable="d"
         Title="Game Window" Height="550" Width="700">
     <Grid>
-        <Label x:Name="RoleLabel" Content="Display Role" HorizontalAlignment="Left" Margin="113,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18"/>
-        <Label x:Name="PlayersRemainingLabel" Content="Players Remaining" HorizontalAlignment="Left" Margin="25,53,0,0" BorderThickness="0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Player1" Text="1. Sheriff" HorizontalAlignment="Left" Margin="25,79,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player2" Text="2. Doctor" HorizontalAlignment="Left" Margin="25,105,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player3" Text="3. Investigator" HorizontalAlignment="Left" Margin="25,131,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player4" Text="4. Jailor" HorizontalAlignment="Left" Margin="25,156,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player5" Text="5. Medium" HorizontalAlignment="Left" Margin="25,182,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player6" Text="6. Godfather" HorizontalAlignment="Left" Margin="25,208,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player7" Text="7. Con Artist" HorizontalAlignment="Left" Margin="25,234,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player8" Text="8. Consigliere" HorizontalAlignment="Left" Margin="25,260,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player9" Text="9. Rabble-Rouser" HorizontalAlignment="Left" Margin="25,286,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player10" Text="10. Village Idiot" HorizontalAlignment="Left" Margin="25,312,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player11" Text="11. Bard" HorizontalAlignment="Left" Margin="25,338,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player12" Text="12. Town Psycho" HorizontalAlignment="Left" Margin="25,363,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player13" Text="13. Veteran" HorizontalAlignment="Left" Margin="25,389,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player14" Text="14. Vigilante" HorizontalAlignment="Left" Margin="25,415,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <TextBox x:Name="Player15" Text="15. Town Watch" HorizontalAlignment="Left" Margin="25,441,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
-        <Label x:Name="YourRoleLabel" Content="Your Role : " HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18"/>
-
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label x:Name="RoleLabel" Content="Display Role" HorizontalAlignment="Left" Margin="113,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18" Grid.RowSpan="2"/>
+        <Label x:Name="PlayersRemainingLabel" Content="Players Remaining" HorizontalAlignment="Left" Margin="25,53,0,0" BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player1" Text="1. Sheriff" HorizontalAlignment="Left" Margin="25,79,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player2" Text="2. Doctor" HorizontalAlignment="Left" Margin="25,105,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player3" Text="3. Investigator" HorizontalAlignment="Left" Margin="25,131,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player4" Text="4. Jailor" HorizontalAlignment="Left" Margin="25,156,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player5" Text="5. Medium" HorizontalAlignment="Left" Margin="25,182,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player6" Text="6. Godfather" HorizontalAlignment="Left" Margin="25,208,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player7" Text="7. Con Artist" HorizontalAlignment="Left" Margin="25,234,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player8" Text="8. Consigliere" HorizontalAlignment="Left" Margin="25,260,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player9" Text="9. Rabble-Rouser" HorizontalAlignment="Left" Margin="25,286,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player10" Text="10. Village Idiot" HorizontalAlignment="Left" Margin="25,312,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player11" Text="11. Bard" HorizontalAlignment="Left" Margin="25,338,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player12" Text="12. Town Psycho" HorizontalAlignment="Left" Margin="25,363,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player13" Text="13. Veteran" HorizontalAlignment="Left" Margin="25,389,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player14" Text="14. Vigilante" HorizontalAlignment="Left" Margin="25,415,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <TextBox x:Name="Player15" Text="15. Town Watch" HorizontalAlignment="Left" Margin="25,441,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90" Grid.RowSpan="2"/>
+        <Label x:Name="YourRoleLabel" Content="Your Role : " HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18" Grid.RowSpan="2"/>
+        <Label x:Name="TimeRemainingLabel" Content="Time Remaining : " HorizontalAlignment="Left" Margin="393,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18" Grid.RowSpan="2"/>
+        <TextBlock Name="tbTime" Text="Seconds" Margin="546,15,-0.4,463.8" FontSize="18" Grid.RowSpan="2" />
+        <Label x:Name="LynchChoicesLabel" Content="Choose a Player to Lynch" HorizontalAlignment="Left" Margin="229,53,0,0" BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <Button x:Name="Player1Button" Content="1" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,80,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player2Button" Content="2" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,106,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player3Button" Content="3" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,129,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player4Button" Content="4" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,154,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player5Button" Content="5" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,180,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player6Button" Content="6" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,206,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player7Button" Content="7" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,230,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player8Button" Content="8" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,257,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player9Button" Content="9" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,283,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player10Button" Content="10" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,310,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player11Button" Content="11" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,336,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player12Button" Content="12" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,364,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player13Button" Content="13" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,390,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player14Button" Content="14" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,416,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Button x:Name="Player15Button" Content="15" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="229,442,0,0" Grid.RowSpan="2" Click="PlayerButton_Click"/>
+        <Label x:Name="RoleDiscriptionLabel" Content="Your Role's Description" HorizontalAlignment="Left" Margin="454,53,0,0" BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox x:Name="RoleDescription" HorizontalAlignment="Left" Height="191" Grid.RowSpan="2" TextWrapping="Wrap" Text="Role Description" VerticalAlignment="Top" Width="242" Margin="406,85,0,0"/>
+        <Label x:Name="WinConditonLabel" Content="Your Role's Win Condition" HorizontalAlignment="Left" Margin="454,286,0,0" BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox x:Name="WinCondition" HorizontalAlignment="Left" Height="38" Grid.RowSpan="2" TextWrapping="Wrap" Text="Win Condition" VerticalAlignment="Top" Width="242" Margin="406,316,0,0"/>
+        <Button x:Name="YesButton" Content="Vote Yes" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" Margin="215,481,0,0" Grid.RowSpan="2" Click="VoteButton_Click"/>
+        <Button x:Name="NoButton" Content="Vote No" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" Margin="321,481,0,0" Grid.RowSpan="2" Click="VoteButton_Click"/>
     </Grid>
 </Window>

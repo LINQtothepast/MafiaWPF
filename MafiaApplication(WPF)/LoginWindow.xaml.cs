@@ -20,7 +20,7 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private string sessionUserLogin;
+        private string sessionUser;
         public LoginWindow()
         {
             InitializeComponent();
@@ -39,8 +39,8 @@ namespace MafiaApplication_WPF_
             }
             else
             {
-                sessionUserLogin = enteredUsername;
-                MainMenu main = new MainMenu(sessionUserLogin);
+                sessionUser = enteredUsername;
+                MainMenu main = new MainMenu(sessionUser);
                 App.Current.MainWindow = main;
                 this.Close();
                 main.Show();

@@ -27,7 +27,11 @@ namespace MafiaApplication_WPF_
             UserCollection.addUser("h", "Fran");
             UserCollection.addUser("i", "Austin");
             UserCollection.addUser("j", "Tanner");
-
+            UserCollection.addUser("k", "Gracen");
+            UserCollection.addUser("l", "Conner");
+            UserCollection.addUser("m", "Cameron");
+            UserCollection.addUser("n", "Lisa");
+            UserCollection.addUser("o", "Jill");
 
             wnd.Show();
         }

@@ -19,7 +19,7 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class RegisterWindow : Window
     {
-        private string sessionUserLogin;
+        private string sessionUser;
 
         public RegisterWindow()
         {
@@ -43,8 +43,8 @@ namespace MafiaApplication_WPF_
             else
             {
                 UserCollection.addUser(enteredEmail, enteredUsername);
-                sessionUserLogin = enteredUsername;
-                MainMenu main = new MainMenu(sessionUserLogin);
+                sessionUser = enteredUsername;
+                MainMenu main = new MainMenu(sessionUser);
                 App.Current.MainWindow = main;
                 this.Close();
                 main.Show();

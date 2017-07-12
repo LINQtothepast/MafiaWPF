@@ -14,7 +14,7 @@ namespace MafiaApplication_WPF_
         //add a user
         public static void addUser(string email, string name)
         {
-            UserList.Add(new User(email, name, 0, "unset", "alive"));
+            UserList.Add(new User(email, name, 0, "unset", "alive", "not jailed", 0, 0));
         }
 
         //return list of users for use elsewhereC:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\UserCollection.cs
@@ -59,6 +59,19 @@ namespace MafiaApplication_WPF_
                 element.UserRole = newRole;
                 newRole++;
             }
+        }
+
+        public static List<User> RandomizeList(List<User> PlayersList)
+        {
+        Random r = new Random();
+            for (int i = PlayersList.Count; i > 1; i--)
+            {
+                int k = r.Next(i);
+                User temp = PlayersList[k];
+                PlayersList[k] = PlayersList[i - 1];
+                PlayersList[i - 1] = temp;
+            }
+            return PlayersList;
         }
 
         //use switch statement to set a string based on role int

@@ -24,70 +24,9 @@ namespace MafiaApplication_WPF_
             GameUsersList = UserCollection.ReturnPlayerList();
         }
 
-        public static void CheckWhoIsDead()
-        {
-            List<User> CheckIfDeadList = new List<User>();
-            CheckIfDeadList = UserCollection.ReturnPlayerList();
-
-            foreach (var element in CheckIfDeadList)
-            {
-                if (element.UserStatus == "dead")
-                {
-                    switch (element.UserRole)
-                    {
-                        case 1:
-                            Player1.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 2:
-                            Player2.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 3:
-                            Player3.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 4:
-                            Player4.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 5:
-                            Player5.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 6:
-                            Player6.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 7:
-                            Player7.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 8:
-                            Player8.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 9:
-                            Player9.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 10:
-                            Player10.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 11:
-                            Player11.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 12:
-                            Player12.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 13:
-                            Player13.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 14:
-                            Player14.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                        case 15:
-                            Player15.TextDecorations = TextDecorations.Strikethrough;
-                            break;
-                    }
-                }
-            }
-        }
-
+        /*
         public static string GameStart(string currentUser)
         {
-            MessageBox.Show(currentUser);
             string rolename;
             rolename = Sheriff.SheriffRole(currentUser);
 
@@ -147,6 +86,6 @@ namespace MafiaApplication_WPF_
                 }
             }
             return rolename;
-        }
+        }*/
     }
 }

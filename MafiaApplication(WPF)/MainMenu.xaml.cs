@@ -40,8 +40,6 @@ namespace MafiaApplication_WPF_
             App.Current.MainWindow = main;
             this.Close();
             main.Show();
-        }
-
-        
+        }   
     }
 }
