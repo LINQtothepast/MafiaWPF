@@ -13,14 +13,16 @@ namespace MafiaApplication_WPF_
         private string userName;
         private int userRole;
         private string userRoleName;
+        private string userStatus;
 
         //constructor
-        public User(string email, string name, int role, string roleName)
+        public User(string email, string name, int role, string roleName, string status)
         {
             UserEmail = email;
             UserName = name;
             UserRole = role;
             UserRoleName = roleName;
+            UserStatus = status;
         }
 
         //properties
@@ -43,6 +45,11 @@ namespace MafiaApplication_WPF_
         {
             get { return userRoleName; }
             set { userRoleName = value; }
+        }
+        public string UserStatus
+        {
+            get { return userStatus; }
+            set { userStatus = value; }
         }
     }
 }

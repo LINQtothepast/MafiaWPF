@@ -28,7 +28,8 @@ namespace MafiaApplication_WPF_
             sessionUser = passedUser;
             playerRole = Game.GameStart(sessionUser);
             RoleLabel.Content = playerRole;
-        }
 
+            
+        }
     }
 }

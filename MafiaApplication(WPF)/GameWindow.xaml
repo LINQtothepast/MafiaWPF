@@ -7,7 +7,25 @@
         mc:Ignorable="d"
         Title="Game Window" Height="550" Width="700">
     <Grid>
-        <Label x:Name="RoleLabel" Content="Display Role" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18"/>
+        <Label x:Name="RoleLabel" Content="Display Role" HorizontalAlignment="Left" Margin="113,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18"/>
+        <Label x:Name="PlayersRemainingLabel" Content="Players Remaining" HorizontalAlignment="Left" Margin="25,53,0,0" BorderThickness="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Player1" Text="1. Sheriff" HorizontalAlignment="Left" Margin="25,79,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player2" Text="2. Doctor" HorizontalAlignment="Left" Margin="25,105,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player3" Text="3. Investigator" HorizontalAlignment="Left" Margin="25,131,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player4" Text="4. Jailor" HorizontalAlignment="Left" Margin="25,156,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player5" Text="5. Medium" HorizontalAlignment="Left" Margin="25,182,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player6" Text="6. Godfather" HorizontalAlignment="Left" Margin="25,208,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player7" Text="7. Con Artist" HorizontalAlignment="Left" Margin="25,234,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player8" Text="8. Consigliere" HorizontalAlignment="Left" Margin="25,260,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player9" Text="9. Rabble-Rouser" HorizontalAlignment="Left" Margin="25,286,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player10" Text="10. Village Idiot" HorizontalAlignment="Left" Margin="25,312,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player11" Text="11. Bard" HorizontalAlignment="Left" Margin="25,338,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player12" Text="12. Town Psycho" HorizontalAlignment="Left" Margin="25,363,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player13" Text="13. Veteran" HorizontalAlignment="Left" Margin="25,389,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player14" Text="14. Vigilante" HorizontalAlignment="Left" Margin="25,415,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <TextBox x:Name="Player15" Text="15. Town Watch" HorizontalAlignment="Left" Margin="25,441,0,0" VerticalAlignment="Top" BorderThickness="0" Width="90"/>
+        <Label x:Name="YourRoleLabel" Content="Your Role : " HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18"/>
+
 
     </Grid>
 </Window>

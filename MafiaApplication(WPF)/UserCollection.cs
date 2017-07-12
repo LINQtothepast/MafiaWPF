@@ -14,10 +14,10 @@ namespace MafiaApplication_WPF_
         //add a user
         public static void addUser(string email, string name)
         {
-            UserList.Add(new User(email, name, 0, "unset"));
+            UserList.Add(new User(email, name, 0, "unset", "alive"));
         }
 
-        //return list of users for use elsewhere
+        //return list of users for use elsewhereC:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\UserCollection.cs
         public static List<User> ReturnPlayerList()
         {
             return UserList;
