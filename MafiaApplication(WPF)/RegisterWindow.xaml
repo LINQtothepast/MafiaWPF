@@ -1,0 +1,15 @@
+﻿<Window x:Class="MafiaApplication_WPF_.RegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MafiaApplication_WPF_"
+        mc:Ignorable="d"
+        Title="Register" Height="550" Width="700">
+    <Grid>
+        <TextBox x:Name="Username_Textbox" GotFocus="TextBox_GotFocus" HorizontalAlignment="Left" Height="23" Margin="290,246,0,0" TextWrapping="Wrap" Text="Enter Name Here" VerticalAlignment="Top" Width="120" />
+        <Label x:Name="label" Content="Register User" HorizontalAlignment="Left" Height="29" Margin="290,157,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="Email_Textbox" GotFocus="TextBox_GotFocus" HorizontalAlignment="Left" Height="23" Margin="290,201,0,0" TextWrapping="Wrap" Text="Enter Email Here" VerticalAlignment="Top" Width="120" />
+        <Button x:Name="RegisterButton" Content="Register" HorizontalAlignment="Left" Margin="290,300,0,0" VerticalAlignment="Top" Width="120" Click="Register_Click"/>
+    </Grid>
+</Window>
