@@ -21,7 +21,7 @@ namespace MafiaApplication_WPF_
 
         public static void SetUsersForGame()
         {
-            GameUsersList = UserCollection.ReturnPlayerList();
+            GameUsersList = UserCollection.ReturnUserList();
         }
 
         /*

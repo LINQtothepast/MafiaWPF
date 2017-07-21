@@ -8,22 +8,14 @@ namespace MafiaApplication_WPF_
 {
     class Jailor
     {
-        public static string JailorName;
-
-        public static string JailorRole(string name)
+        public static void JailorNightTime(User passedUser, User sessionUser)
         {
-            JailorName = name;
-            return "Jailor";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserArmed == true)
             {
-                Console.WriteLine("Jailor");
-                Game.GameOngoing = false;
-
+                sessionUser.UserKilled = true;
             }
+            passedUser.UserBlocked = true;
+            passedUser.UserVisitedBy += sessionUser.UserName + " ";
         }
     }
 }

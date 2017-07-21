@@ -8,22 +8,14 @@ namespace MafiaApplication_WPF_
 {
     class Doctor
     {
-        public static string DoctorName;
-
-        public static string DoctorRole(string name)
+        public static void DocNightTime(User passedUser, User sessionUser)
         {
-            DoctorName = name;
-            return "Doctor";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserArmed == true)
             {
-                Console.WriteLine("Doctor");
-                Game.GameOngoing = false;
-
+                sessionUser.UserKilled = true;
             }
+            passedUser.UserSaved = true;
+            passedUser.UserVisitedBy += sessionUser.UserName + " ";
         }
     }
 }

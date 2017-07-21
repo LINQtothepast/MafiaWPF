@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+
 
 namespace MafiaApplication_WPF_
 {
@@ -20,6 +22,8 @@ namespace MafiaApplication_WPF_
     public partial class MainMenu : Window
     {
         private string sessionUser;
+        private List<User> ListOfPlayers = new List<User>();
+        private string result = "";
 
         public MainMenu(string passedUserLogin)
         {
@@ -28,15 +32,25 @@ namespace MafiaApplication_WPF_
             InitializeComponent();
             sessionUser = passedUserLogin;
 
-            List<User> ListOfPlayers = new List<User>();
-            ListOfPlayers = UserCollection.ReturnPlayerList();
+            //set listing of current players
+            ListOfPlayers = UserCollection.ReturnUserList();
+            //ListOfPlayers = UserCollection.ReturnPlayerList();
 
-            this.PlayerListBox.ItemsSource = ListOfPlayers;
+            var tempList =
+                from player in ListOfPlayers
+                where player.UserBlocked == false
+                select new
+                {
+                    Name = player.UserName,
+                    Email = player.UserEmail,
+                };
+
+            this.PlayerListBox.ItemsSource = tempList;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow main = new GameWindow(sessionUser);
+            GameWindow main = new GameWindow(sessionUser, result);
             App.Current.MainWindow = main;
             this.Close();
             main.Show();

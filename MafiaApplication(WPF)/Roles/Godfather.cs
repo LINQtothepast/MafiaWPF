@@ -8,22 +8,17 @@ namespace MafiaApplication_WPF_
 {
     class Godfather
     {
-        public static string GodfatherName;
-
-        public static string GodfatherRole(string name)
+        public static void GodFatherNightTime(User passedUser, User sessionUser)
         {
-            GodfatherName = name;
-            return "Godfather";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserArmed == true)
             {
-                Console.WriteLine("Godfather");
-                Game.GameOngoing = false;
-
+                sessionUser.UserKilled = true;
             }
+            else
+            {
+                passedUser.UserKilled = true;
+            }
+            passedUser.UserVisitedBy += sessionUser.UserName + " ";
         }
     }
 }

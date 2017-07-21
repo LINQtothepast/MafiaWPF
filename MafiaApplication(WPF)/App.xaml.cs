@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Data.SqlClient;
 
 namespace MafiaApplication_WPF_
 {
@@ -13,10 +14,12 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class App : Application
     {
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             LoginWindow wnd = new LoginWindow();
 
+            
             UserCollection.addUser("a", "Derek");
             UserCollection.addUser("b", "Tara");
             UserCollection.addUser("c", "Rowan");
@@ -32,7 +35,10 @@ namespace MafiaApplication_WPF_
             UserCollection.addUser("m", "Cameron");
             UserCollection.addUser("n", "Lisa");
             UserCollection.addUser("o", "Jill");
-
+            
+            /*
+            
+            */
             wnd.Show();
         }
     }

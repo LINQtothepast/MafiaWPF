@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+
 
 namespace MafiaApplication_WPF_
 {
@@ -20,10 +22,11 @@ namespace MafiaApplication_WPF_
     public partial class RegisterWindow : Window
     {
         private string sessionUser;
+        private SqlConnection connect;
 
         public RegisterWindow()
         {
-            InitializeComponent();
+            InitializeComponent();        
         }
 
         //checks if username is already in use
@@ -44,6 +47,27 @@ namespace MafiaApplication_WPF_
             {
                 UserCollection.addUser(enteredEmail, enteredUsername);
                 sessionUser = enteredUsername;
+                string connetionString = null;
+                connetionString = ("user id=Derek;" +
+                                    "server=localhost;" +
+                                    "Trusted_Connection=yes;" +
+                                    "database=Mafia");
+
+                using (connect = new SqlConnection(connetionString))
+                {
+                    connect.Open();
+                    string command = "INSERT INTO Users"
+                    + " (Email, Name, Role, RoleName, Status, Blocked, Conned, " +
+                    "Saved, Killed, Armed, VisitedBy, Win, LynchNominationVotes, LynchVotes) " +
+                     "VALUES (@Email, @Name, 0, 'Unset', 0, 0, 0, 0, 0, 0, '', 0, 0, 0)";
+                    SqlCommand insertCommand = new SqlCommand(command, connect);
+                    insertCommand.Parameters.AddWithValue("@Email", enteredEmail);
+                    insertCommand.Parameters.AddWithValue("@Name", enteredUsername);
+                    insertCommand.ExecuteNonQuery();
+                    connect.Close();
+                }
+                    
+                
                 MainMenu main = new MainMenu(sessionUser);
                 App.Current.MainWindow = main;
                 this.Close();

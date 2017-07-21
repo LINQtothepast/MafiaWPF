@@ -8,22 +8,6 @@ namespace MafiaApplication_WPF_
 {
     class VillageIdiot
     {
-        private static string VillageIdiotName;
-
-        public static string VillageIdiotRole(string name)
-        {
-            VillageIdiotName = name;
-            return "Village Idiot";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
-            {
-                Console.WriteLine("Village Idiot");
-                Game.GameOngoing = false;
-
-            }
-        }
+        
     }
 }

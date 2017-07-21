@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace MafiaApplication_WPF_
 {
@@ -10,21 +19,55 @@ namespace MafiaApplication_WPF_
     {
         //list of users
         private static List<User> UserList = new List<User>();
+        //private static List<User> fifteenPlayerList = new List<User>();
 
         //add a user
         public static void addUser(string email, string name)
         {
-            UserList.Add(new User(email, name, 0, "unset", "alive", "not jailed", 0, 0));
+            UserList.Add(new User(email, name, 0, "unset", false, false, false, false, false, false,
+                false, "", false, false, false, 0, 0));
         }
 
-        //return list of users for use elsewhereC:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\UserCollection.cs
-        public static List<User> ReturnPlayerList()
+        //add player to fifteen player list
+        public static void addPlayer(User temp)
+        {
+            UserList.Add(temp);
+        }
+
+        //return a user
+        /*public static User ReturnAUser(string sessionUser)
+        {
+            User temp = UserList[0];
+
+            var tempList =
+                from player in UserList
+                where player.UserName == sessionUser
+                select player;
+
+            
+
+            if (tempList == null)
+            {
+                MessageBox.Show("error");
+            }
+            return temp;
+        }
+        */
+
+        //return list of users for use elsewhere
+        public static List<User> ReturnUserList()
         {
             return UserList;
         }
 
+        //return list of fifteen players for use elsewhere
+        //public static List<User> ReturnPlayerList()
+        //{
+        //    return fifteenPlayerList;
+        //}
+
         //check username to see if it is valid
-        
+
         public static bool checkCredentials(string passedUser)
         {
             bool valid = false;
@@ -40,7 +83,6 @@ namespace MafiaApplication_WPF_
             return valid;
         }
     
-
         //assign random role integer numbers from 1 to number of players
         public static void AssignRoles()
         {
@@ -61,6 +103,7 @@ namespace MafiaApplication_WPF_
             }
         }
 
+        //randomize the list for game integrity purposes
         public static List<User> RandomizeList(List<User> PlayersList)
         {
         Random r = new Random();
@@ -129,16 +172,5 @@ namespace MafiaApplication_WPF_
                 }
             }
         }
-
-        //call to print out name and role name of each player
-        public static void PrintRoles()
-        {
-            foreach (var element in UserList)
-            {
-                Console.WriteLine("Name:{0} Role: {1}",
-                    element.UserName.PadRight(15), element.UserRoleName);
-            }
-        }
     }
-
 }

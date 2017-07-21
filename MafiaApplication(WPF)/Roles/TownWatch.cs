@@ -7,23 +7,15 @@ using System.Threading.Tasks;
 namespace MafiaApplication_WPF_
 {
     class TownWatch
-    { 
-        private static string TownWatchName;
-
-        public static string TownWatchRole(string name)
+    {
+        public static string TownWatchNightTime(User passedUser, User sessionUser)
         {
-            TownWatchName = name;
-            return "Town Watch";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserArmed == true)
             {
-                Console.WriteLine("Town Watch");
-                Game.GameOngoing = false;
-
+                sessionUser.UserKilled = true;
             }
+            passedUser.UserVisitedBy = sessionUser.UserName + " ";
+            return passedUser.UserVisitedBy;
         }
     }
 }

@@ -8,22 +8,6 @@ namespace MafiaApplication_WPF_
 {
     class Medium
     {
-        private static string MediumName;
-
-        public static string MediumRole(string name)
-        {
-            MediumName = name;
-            return "Medium";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
-            {
-                Console.WriteLine("Medium");
-                Game.GameOngoing = false;
-
-            }
-        }
+        
     }
 }

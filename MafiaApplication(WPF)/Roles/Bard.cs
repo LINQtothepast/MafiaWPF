@@ -8,21 +8,14 @@ namespace MafiaApplication_WPF_
 {
     class Bard
     {
-        public static string BardName;
-
-        public static string BardRole(string name)
+        public static void BardNightTime(User passedUser, User sessionUser)
         {
-            BardName = name;
-            return "Bard";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserRole == 13)
             {
-                Game.GameOngoing = false;
-
+                passedUser.UserArmed = false;
             }
+            passedUser.UserBlocked = true;
+            passedUser.UserVisitedBy += sessionUser.UserName + " ";
         }
     }
 }

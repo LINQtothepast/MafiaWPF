@@ -18,3 +18,5 @@ C:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\obj\Debug\Maf
 C:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\obj\Debug\MafiaApplication(WPF).exe
 C:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\obj\Debug\MafiaApplication(WPF).pdb
 C:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\obj\Debug\MafiaApplication(WPF).csprojResolveAssemblyReference.cache
+C:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\obj\Debug\NightWindow.g.cs
+C:\Users\Derek\Desktop\MafiaApplication(WPF)\MafiaApplication(WPF)\obj\Debug\NightWindow.baml

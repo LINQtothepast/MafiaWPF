@@ -8,22 +8,15 @@ namespace MafiaApplication_WPF_
 {
     class ConArtist
     {
-        public static string ConArtistName;
-
-        public static string ConArtistRole(string name)
+        public static void ConNightTime(User passedUser, User sessionUser)
         {
-            ConArtistName = name;
-            return "Con Artist";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserArmed == true)
             {
-                Console.WriteLine("ConArtist");
-                Game.GameOngoing = false;
-
+                sessionUser.UserKilled = true;
             }
+            passedUser.UserConned = true;
+            passedUser.UserVisitedBy += sessionUser.UserName + " ";
+
         }
     }
 }

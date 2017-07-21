@@ -53,5 +53,13 @@
         <TextBox x:Name="WinCondition" HorizontalAlignment="Left" Height="38" Grid.RowSpan="2" TextWrapping="Wrap" Text="Win Condition" VerticalAlignment="Top" Width="242" Margin="406,316,0,0"/>
         <Button x:Name="YesButton" Content="Vote Yes" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" Margin="215,481,0,0" Grid.RowSpan="2" Click="VoteButton_Click"/>
         <Button x:Name="NoButton" Content="Vote No" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" Margin="321,481,0,0" Grid.RowSpan="2" Click="VoteButton_Click"/>
+        <Label x:Name="CurrentVotesLabel" Content="Current Votes" HorizontalAlignment="Left" Margin="485,364,0,0" BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox x:Name="CurrentVotes" HorizontalAlignment="Left" Height="105" Grid.RowSpan="2" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="242" Margin="406,395,0,0"/>
+        <Label x:Name="WarningLabel" Content="Warning. You May" FontSize="16" HorizontalAlignment="Left" Margin="10,462,0,0" BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2" Width="163" Height="41"/>
+        <Label x:Name="WarningLabel_Copy" Content="Only Vote Once" FontSize="16" HorizontalAlignment="Left" Margin="10,484,0,-0.2" BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2" Width="163" Height="37"/>
+        <Label x:Name="DayLabel" Content="Day : " HorizontalAlignment="Left" Margin="261,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18" Grid.RowSpan="2"/>
+        <Label x:Name="DayContent" Content="1" HorizontalAlignment="Left" Margin="306,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18" Grid.RowSpan="2"/>
+        <Label x:Name="UserNameLabel" Content="Username : " HorizontalAlignment="Left" Margin="25,31,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="12" Grid.RowSpan="2"/>
+        <Label x:Name="UserNameContent" Content=" " HorizontalAlignment="Left" Margin="91,31,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="12" Grid.RowSpan="2"/>
     </Grid>
 </Window>

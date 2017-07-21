@@ -8,21 +8,14 @@ namespace MafiaApplication_WPF_
 {
     class Veteran
     {
-        private static string VeteranName;
+        private static int armedNights = 0;
 
-        public static string VeteranRole(string name)
+        public static void VetNightTime(User sessionUser)
         {
-            VeteranName = name;
-            return "Veteran";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (armedNights < 5)
             {
-                Console.WriteLine("Veteran");
-                Game.GameOngoing = false;
-
+                sessionUser.UserArmed = true;
+                armedNights += 1;
             }
         }
     }

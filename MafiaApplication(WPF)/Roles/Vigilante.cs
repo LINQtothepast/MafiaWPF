@@ -8,22 +8,23 @@ namespace MafiaApplication_WPF_
 {
     class Vigilante
     {
-        private static string VigilanteName;
-
-        public static string VigilanteRole(string name)
+        public static void VigNightTime(User passedUser, User sessionUser)
         {
-            VigilanteName = name;
-            return "Vigilante";
-        }
-
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserArmed == true)
             {
-                Console.WriteLine("Vigilante");
-                Game.GameOngoing = false;
-
+                sessionUser.UserKilled = true;
             }
+            else if (passedUser.UserRole != 6 || passedUser.UserRole != 7 || passedUser.UserRole != 8 ||
+                passedUser.UserRole != 10 || passedUser.UserRole != 12)
+            {
+                passedUser.UserKilled = true;
+                sessionUser.UserKilled = true;
+            }
+            else
+            {
+                passedUser.UserKilled = true;
+            }
+            passedUser.UserVisitedBy = sessionUser.UserName + " ";
         }
     }
 }

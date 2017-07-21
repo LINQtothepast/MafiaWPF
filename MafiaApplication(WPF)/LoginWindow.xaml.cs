@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
 
 namespace MafiaApplication_WPF_
 {
@@ -20,32 +21,76 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private List<User> CheckForUser = new List<User>();
         private string sessionUser;
+        private string enteredUsername;
+        private SqlConnection connect;
+        private string tempName;
+        private string tempEmail;
+
         public LoginWindow()
         {
             InitializeComponent();
+            //connect to database
+            string connetionString = ("user id=Derek;" +
+                                "server=localhost;" +
+                                "Trusted_Connection=yes;" +
+                                "database=Mafia");
+
+            using (connect = new SqlConnection(connetionString))
+            {
+                connect.Open();
+                string readString = "select * from Users";
+                SqlCommand readCommand = new SqlCommand(readString, connect);
+
+                using (SqlDataReader dataRead = readCommand.ExecuteReader())
+                {
+                    if (dataRead != null)
+                    {
+                        while (dataRead.Read())
+                        {
+                            tempEmail = dataRead["Email"].ToString();
+                            tempName = dataRead["Name"].ToString();
+                            UserCollection.addUser(tempEmail, tempName);
+                        }
+                    }
+                }
+                connect.Close();
+            }
+
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            bool validCredentials = false;
-            string enteredUsername;
             enteredUsername = Username_Textbox.Text;
-            validCredentials = UserCollection.checkCredentials(enteredUsername);
+            CheckForUser = UserCollection.ReturnUserList();
 
-            if (validCredentials == false)
+            var tempList =
+                from player in CheckForUser
+                where player.UserName == enteredUsername
+                select player;
+
+            if (tempList != null)
             {
-                MessageBox.Show("Invalid Input. Please Retry");
-            }
-            else
-            {
+                foreach (var element in tempList)
+                {
+                    UserCollection.addPlayer(element);
+                }
                 sessionUser = enteredUsername;
                 MainMenu main = new MainMenu(sessionUser);
                 App.Current.MainWindow = main;
                 this.Close();
                 main.Show();
             }
+            else
+            {
+                RegisterWindow main = new RegisterWindow();
+                App.Current.MainWindow = main;
+                this.Close();
+                main.Show();
+            }                                    
         }
+
         private void Register_Click(object sender, RoutedEventArgs e)
         {
             RegisterWindow main = new RegisterWindow();

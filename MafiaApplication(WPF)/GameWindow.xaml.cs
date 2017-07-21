@@ -24,17 +24,38 @@ namespace MafiaApplication_WPF_
         private DispatcherTimer gameTimer;
         private TimeSpan timeAmount;
         private TimeSpan sixtySeconds;
-        private TimeSpan tenSeconds;
+        private TimeSpan fifteenSeconds;
         private User tempPlayer;
         private List<User> PlayersList = new List<User>();
         private int deadCount;
+        private User maxVotes;
+        private static int day = 0;
+        private string nightResults;
 
         //handles daytime
-        public GameWindow(string passedUser)
+        public GameWindow(string passedUser, string passedResult)
         {
             InitializeComponent();
+            nightResults = passedResult;
             sessionUser = passedUser;
             deadCount = 0;
+            day += 1;
+            CurrentVotes.Text = "";
+            PlayersList = UserCollection.ReturnUserList();
+
+            //tempPlayer = UserCollection.ReturnAUser(sessionUser);
+            foreach (var element in PlayersList)
+            {
+                if (element.UserName == sessionUser)
+                {
+                    tempPlayer = element;
+                }
+            }
+            UserNameContent.Content = sessionUser;
+
+            //set current day
+            DayContent.Content = day.ToString();
+            
 
             //check who is dead at start of round
             CheckWhoIsDead();
@@ -49,9 +70,10 @@ namespace MafiaApplication_WPF_
             RoleLabel.Content = tempPlayer.UserRoleName;
 
             //set a timer that counts down and at the end of the timer switches to new page
-            timeAmount = TimeSpan.FromSeconds(65);
-            sixtySeconds = TimeSpan.FromSeconds(60);
-            tenSeconds = TimeSpan.FromSeconds(10);
+            timeAmount = TimeSpan.FromSeconds(15);
+            sixtySeconds = TimeSpan.FromSeconds(10);
+            fifteenSeconds = TimeSpan.FromSeconds(5);
+            maxVotes = PlayersList[0];
             
             gameTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
@@ -60,25 +82,47 @@ namespace MafiaApplication_WPF_
                 //enable lynching at 60 seconds remaining
                 if (timeAmount == sixtySeconds)
                 {
-                    Player1Button.IsEnabled = true;
-                    Player2Button.IsEnabled = true;
-                    Player3Button.IsEnabled = true;
-                    Player4Button.IsEnabled = true;
-                    Player5Button.IsEnabled = true;
-                    Player6Button.IsEnabled = true;
-                    Player7Button.IsEnabled = true;
-                    Player8Button.IsEnabled = true;
-                    Player9Button.IsEnabled = true;
-                    Player10Button.IsEnabled = true;
-                    Player11Button.IsEnabled = true;
-                    Player12Button.IsEnabled = true;
-                    Player13Button.IsEnabled = true;
-                    Player14Button.IsEnabled = true;
-                    Player15Button.IsEnabled = true;
+                    if (PlayersList[0].UserStatus == false) Player1Button.IsEnabled = true;
+                    if (PlayersList[1].UserStatus == false) Player2Button.IsEnabled = true;
+                    if (PlayersList[2].UserStatus == false) Player3Button.IsEnabled = true;
+                    if (PlayersList[3].UserStatus == false) Player4Button.IsEnabled = true;
+                    if (PlayersList[4].UserStatus == false) Player5Button.IsEnabled = true;
+                    if (PlayersList[5].UserStatus == false) Player6Button.IsEnabled = true;
+                    if (PlayersList[6].UserStatus == false) Player7Button.IsEnabled = true;
+                    if (PlayersList[7].UserStatus == false) Player8Button.IsEnabled = true;
+                    if (PlayersList[8].UserStatus == false) Player9Button.IsEnabled = true;
+                    if (PlayersList[9].UserStatus == false) Player10Button.IsEnabled = true;
+                    if (PlayersList[10].UserStatus == false) Player11Button.IsEnabled = true;
+                    if (PlayersList[11].UserStatus == false) Player12Button.IsEnabled = true;
+                    if (PlayersList[12].UserStatus == false) Player13Button.IsEnabled = true;
+                    if (PlayersList[13].UserStatus == false) Player14Button.IsEnabled = true;
+                    if (PlayersList[14].UserStatus == false) Player15Button.IsEnabled = true;
                 }
-                //disable lynching at 10 seconds remaining
+
+                //set votes textbox content
+                if (timeAmount > fifteenSeconds)
+                {
+                    CurrentVotes.Text = "";
+                    foreach (var element in PlayersList)
+                    {
+                        if (element.UserLynchNominationVotes >= 1)
+                        {
+                            CurrentVotes.Text += element.UserName;
+                            CurrentVotes.Text += " ";
+                            CurrentVotes.Text += element.UserLynchNominationVotes;
+                            CurrentVotes.Text += "\n";
+                        }
+                        if (element.UserLynchNominationVotes > maxVotes.UserLynchNominationVotes)
+                        {
+                            maxVotes = element;
+                        }
+                    }
+                }
+                
+               
+                //disable lynching nomination at 15 seconds remaining
                 //and check if anyone is up for vote
-                if (timeAmount == tenSeconds)
+                if (timeAmount == fifteenSeconds)
                 {
                     Player1Button.IsEnabled = false;
                     Player2Button.IsEnabled = false;
@@ -97,21 +141,38 @@ namespace MafiaApplication_WPF_
                     Player15Button.IsEnabled = false;
                     foreach (var element in PlayersList)
                     {
-                        if (element.UserLynchNominationVotes >= ((PlayersList.Count - deadCount) / 2))
+                        if (maxVotes.UserLynchNominationVotes >= ((PlayersList.Count - deadCount) / 2))
                         {
-                            gameTimer.Stop();
                             YesButton.IsEnabled = true;
                             NoButton.IsEnabled = true;
                         }
                     }
                 }
 
+                //each second after 15 seconds keep current Lynch Vote Displayed
+                if (timeAmount < fifteenSeconds)
+                {
+                    CurrentVotes.Text = maxVotes.UserName + " " + maxVotes.UserLynchVotes.ToString();
+                }
+
 
                 //at zero time switch windows
                 if (timeAmount == TimeSpan.Zero)
                 {
+                    //kill lynched player if we have enough votes
                     gameTimer.Stop();
-                    MainMenu main = new MainMenu(sessionUser);
+                    if (maxVotes.UserLynchVotes >= ((PlayersList.Count - deadCount) / 2))
+                    {
+                        maxVotes.UserStatus = true;
+                    }
+                    foreach (var element in PlayersList)
+                    {
+                        element.UserHasNomVoted = false;
+                        element.UserHasVoted = false;
+                        element.UserLynchNominationVotes = 0;
+                        element.UserLynchVotes = 0;
+                    }
+                    NightWindow main = new NightWindow(sessionUser, tempPlayer);
                     App.Current.MainWindow = main;
                     this.Close();
                     main.Show();
@@ -123,9 +184,11 @@ namespace MafiaApplication_WPF_
             gameTimer.Start();
         }
 
+        //set player buttons for voting to a player name
         private void SetPlayerNamesToButtons()
         {
             PlayersList = UserCollection.RandomizeList(PlayersList);
+
             Player1Button.Content = PlayersList[0].UserName;
             Player2Button.Content = PlayersList[1].UserName;
             Player3Button.Content = PlayersList[2].UserName;
@@ -143,6 +206,8 @@ namespace MafiaApplication_WPF_
             Player15Button.Content = PlayersList[14].UserName;
         }
 
+
+        //set description of role and win condition based on session user role
         private void SetRoleDetails()
         {
             switch (tempPlayer.UserRole)
@@ -220,7 +285,7 @@ namespace MafiaApplication_WPF_
                     WinCondition.Text = "Kill the Mafia and the Town Psycho.";
                     break;
                 case 14:
-                    RoleDescription.Text = "Each night the vigilante may choose to shoot and kill one person. Hitting the Village Idiot, "
+                    RoleDescription.Text = "Each night the Vigilante may choose to shoot and kill one person. Hitting the Village Idiot, "
                         + "Town Psycho, or any member of the Mafia is good. Hit anyone else and you die that night as well.";
                     WinCondition.Text = "Kill the Mafia and the Town Psycho.";
                     break;
@@ -233,19 +298,14 @@ namespace MafiaApplication_WPF_
         }
 
         //checks which roles are still alive
+        //if the person is dead then their role gets marked off
         private void CheckWhoIsDead()
         {
-            PlayersList = UserCollection.ReturnPlayerList();
-
             foreach (var element in PlayersList)
             {
-                //quick set of temp User for use later
-                if (element.UserName == sessionUser)
+                if (element.UserStatus == true)
                 {
-                    tempPlayer = element;
-                }
-                if (element.UserStatus == "dead")
-                {
+                    //deadcount used for lynch voting mechanic
                     deadCount += 1;
                     switch (element.UserRole)
                     {
@@ -299,31 +359,39 @@ namespace MafiaApplication_WPF_
             }
         }
 
+        //get the vote to nominate someone for lynch from button click and properly assign it to that person
         private void PlayerButton_Click(object sender, RoutedEventArgs e)
         {
             Button B = sender as Button;
-            foreach (var element in PlayersList)
+            //if (tempPlayer.UserHasNomVoted == false)
             {
-                if (B.Content.ToString() == element.UserName)
+                foreach (var element in PlayersList)
                 {
-                    element.UserLynchNominationVotes += 1;
+                    if (B.Content.ToString() == element.UserName)
+                    {
+                        element.UserLynchNominationVotes += 1;
+                    }
                 }
+                tempPlayer.UserHasNomVoted = true;
             }
         }
+
+        //get the yes or no vote and assign it to person up for lynching
         private void VoteButton_Click(object sender, RoutedEventArgs e)
         {
             Button B = sender as Button;
-            foreach (var element in PlayersList)
+            //if (tempPlayer.UserHasVoted == false)
             {
-                if (B.Content.ToString() == "yes")
+                if (B.Content.ToString() == "Vote Yes")
                 {
-                    element.UserLynchVotes += 1;
+                    maxVotes.UserLynchVotes += 1;
+                    //MessageBox.Show(maxVotes.UserLynchVotes.ToString());
                 }
-                if (B.Content.ToString() == "no")
+                if (B.Content.ToString() == "Vote No")
                 {
-                    element.UserLynchVotes -= 1;
+                    maxVotes.UserLynchVotes -= 1;
                 }
-            }
+            }  
         }
     }
 }

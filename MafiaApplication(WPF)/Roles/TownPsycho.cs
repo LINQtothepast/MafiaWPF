@@ -8,21 +8,17 @@ namespace MafiaApplication_WPF_
 {
     class TownPsycho
     {
-        private static string TownPsychoName;
-
-        public static string TownPsychoRole(string name)
+        public static void TownPsychoNightTime(User passedUser, User sessionUser)
         {
-            TownPsychoName = name;
-            return "Town Psycho";
-        }
-        public static void SwitchTo()
-        {
-            while (Game.GameOngoing == true)
+            if (passedUser.UserArmed == true)
             {
-                Console.WriteLine("Town Psycho");
-                Game.GameOngoing = false;
-
+                sessionUser.UserKilled = true;
             }
+            else
+            {
+                passedUser.UserKilled = true;
+            }
+            passedUser.UserVisitedBy = sessionUser.UserName + " ";
         }
     }
 }
