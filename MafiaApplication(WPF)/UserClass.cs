@@ -11,6 +11,7 @@ namespace MafiaApplication_WPF_
     {
         //attributes
         //all bool values are default false
+        private int userID;
         private string userEmail;
         private string userName;
         private int userRole;
@@ -30,10 +31,11 @@ namespace MafiaApplication_WPF_
         private int userLynchVotes;
 
         //constructor
-        public User(string email, string name, int role, string roleName, bool status,
+        public User(int id, string email, string name, int role, string roleName, bool status,
             bool blocked, bool conned, bool saved, bool killed, bool armed, bool roleActive,
             string visitedBy, bool win, bool hasNomVoted, bool hasVoted, int nomVotes, int votes)
         {
+            UserID = id;
             UserEmail = email;
             UserName = name;
             UserRole = role;
@@ -54,6 +56,11 @@ namespace MafiaApplication_WPF_
         }
 
         //properties
+        public int UserID
+        {
+            get { return userID; }
+            set { userID = value; }
+        }
         public string UserEmail
         {
             get { return userEmail; }

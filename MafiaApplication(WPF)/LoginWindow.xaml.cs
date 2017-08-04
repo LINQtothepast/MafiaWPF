@@ -21,63 +21,26 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private List<User> CheckForUser = new List<User>();
-        private string sessionUser;
         private string enteredUsername;
-        private SqlConnection connect;
-        private string tempName;
-        private string tempEmail;
+        private User sessionPlayer;
 
         public LoginWindow()
         {
             InitializeComponent();
-            //connect to database
-            string connetionString = ("user id=Derek;" +
-                                "server=localhost;" +
-                                "Trusted_Connection=yes;" +
-                                "database=Mafia");
-
-            using (connect = new SqlConnection(connetionString))
-            {
-                connect.Open();
-                string readString = "select * from Users";
-                SqlCommand readCommand = new SqlCommand(readString, connect);
-
-                using (SqlDataReader dataRead = readCommand.ExecuteReader())
-                {
-                    if (dataRead != null)
-                    {
-                        while (dataRead.Read())
-                        {
-                            tempEmail = dataRead["Email"].ToString();
-                            tempName = dataRead["Name"].ToString();
-                            UserCollection.addUser(tempEmail, tempName);
-                        }
-                    }
-                }
-                connect.Close();
-            }
-
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
+            UserCollection.fillListFromDB();
             enteredUsername = Username_Textbox.Text;
-            CheckForUser = UserCollection.ReturnUserList();
+            sessionPlayer = UserCollection.ReturnAUser(enteredUsername);
 
-            var tempList =
-                from player in CheckForUser
-                where player.UserName == enteredUsername
-                select player;
-
-            if (tempList != null)
+            MessageBox.Show(sessionPlayer.UserName);
+            
+            if (sessionPlayer.UserName == enteredUsername)
             {
-                foreach (var element in tempList)
-                {
-                    UserCollection.addPlayer(element);
-                }
-                sessionUser = enteredUsername;
-                MainMenu main = new MainMenu(sessionUser);
+                
+                MainMenu main = new MainMenu(sessionPlayer);
                 App.Current.MainWindow = main;
                 this.Close();
                 main.Show();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace MafiaApplication_WPF_
 {
@@ -16,6 +17,29 @@ namespace MafiaApplication_WPF_
             {
                 sessionUser.UserArmed = true;
                 armedNights += 1;
+
+                SqlConnection connect;
+                string connetionString = null;
+                connetionString = ("user id=Derek;" +
+                                    "server=localhost;" +
+                                    "Trusted_Connection=yes;" +
+                                    "database=Test");
+
+                using (connect = new SqlConnection(connetionString))
+                {
+                    connect.Open();
+
+                    using (SqlCommand cmd =
+                    new SqlCommand("UPDATE UserStatus SET Armed=@Armed" +
+                    " WHERE Id=@Id", connect))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", sessionUser.UserID);
+                        cmd.Parameters.AddWithValue("@Armed", 1);
+
+                        int rows = cmd.ExecuteNonQuery();
+                        connect.Close();
+                    }
+                }
             }
         }
     }

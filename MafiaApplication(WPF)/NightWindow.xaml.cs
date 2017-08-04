@@ -20,8 +20,7 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class NightWindow : Window
     {
-        private string SessionUser;
-        private User tempPlayer;
+        private User sessionPlayer;
         private User targetUser;
         private DispatcherTimer gameTimer;
         private List<User> PlayersList = new List<User>();
@@ -29,11 +28,11 @@ namespace MafiaApplication_WPF_
         private static int night = 0;
         private string result = "";
 
-        public NightWindow(string passedUser, User passedPlayer)
+        public NightWindow(User passedPlayer)
         {
             InitializeComponent();
-            tempPlayer = passedPlayer;
-            SessionUser = passedUser;
+
+            sessionPlayer = passedPlayer;
             PlayersList = UserCollection.ReturnUserList();
             timeAmount = TimeSpan.FromSeconds(15);
             RoleLabel.Content = passedPlayer.UserRoleName;
@@ -97,12 +96,12 @@ namespace MafiaApplication_WPF_
                     Player13Button.IsEnabled = false;
                     Player14Button.IsEnabled = false;
                     Player15Button.IsEnabled = false;
-                    if (tempPlayer.UserRole == 13)
+                    if (sessionPlayer.UserRole == 13)
                     {
                         //veteran activates
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            Veteran.VetNightTime(tempPlayer);
+                            Veteran.VetNightTime(sessionPlayer);
                         }
                     }
                 }
@@ -110,11 +109,11 @@ namespace MafiaApplication_WPF_
                 if (timeAmount == TimeSpan.FromSeconds(8))
                 {
                     //bard role goes
-                    if (tempPlayer.UserRole == 11)
+                    if (sessionPlayer.UserRole == 11)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            Bard.BardNightTime(targetUser, tempPlayer);
+                            Bard.BardNightTime(targetUser, sessionPlayer);
                         }
                     }
                 }
@@ -122,13 +121,13 @@ namespace MafiaApplication_WPF_
                 if (timeAmount == TimeSpan.FromSeconds(5))
                 {
                     //jailor
-                    if (tempPlayer.UserRole == 4)
+                    if (sessionPlayer.UserRole == 4)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                Jailor.JailorNightTime(targetUser, tempPlayer);
+                                Jailor.JailorNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -141,13 +140,13 @@ namespace MafiaApplication_WPF_
                 if (timeAmount == TimeSpan.FromSeconds(6))
                 {
                     //conartist
-                    if (tempPlayer.UserRole == 7)
+                    if (sessionPlayer.UserRole == 7)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                ConArtist.ConNightTime(targetUser, tempPlayer);
+                                ConArtist.ConNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -156,13 +155,13 @@ namespace MafiaApplication_WPF_
                         }
                     }
                     //doctor
-                    else if (tempPlayer.UserRole == 2)
+                    else if (sessionPlayer.UserRole == 2)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                Doctor.DocNightTime(targetUser, tempPlayer);
+                                Doctor.DocNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -171,13 +170,13 @@ namespace MafiaApplication_WPF_
                         }
                     }
                     //godfather
-                    else if (tempPlayer.UserRole == 6)
+                    else if (sessionPlayer.UserRole == 6)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                Godfather.GodFatherNightTime(targetUser, tempPlayer);
+                                Godfather.GodFatherNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -186,13 +185,13 @@ namespace MafiaApplication_WPF_
                         }
                     }
                     //townpsycho
-                    else if (tempPlayer.UserRole == 12)
+                    else if (sessionPlayer.UserRole == 12)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                TownPsycho.TownPsychoNightTime(targetUser, tempPlayer);
+                                TownPsycho.TownPsychoNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -201,13 +200,13 @@ namespace MafiaApplication_WPF_
                         }
                     }
                     //vigilante
-                    else if (tempPlayer.UserRole == 14)
+                    else if (sessionPlayer.UserRole == 14)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                Vigilante.VigNightTime(targetUser, tempPlayer);
+                                Vigilante.VigNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -220,13 +219,13 @@ namespace MafiaApplication_WPF_
                 if (timeAmount == TimeSpan.FromSeconds(4))
                 {
                     //sheriff
-                    if (tempPlayer.UserRole == 1)
+                    if (sessionPlayer.UserRole == 1)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                result = Sheriff.SheriffNightTime(targetUser, tempPlayer);
+                                result = Sheriff.SheriffNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -235,13 +234,13 @@ namespace MafiaApplication_WPF_
                         }
                     }
                     //investigator
-                    else if (tempPlayer.UserRole == 3)
+                    else if (sessionPlayer.UserRole == 3)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                result = Investigator.InvNightTime(targetUser, tempPlayer);
+                                result = Investigator.InvNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -254,13 +253,13 @@ namespace MafiaApplication_WPF_
                 if (timeAmount == TimeSpan.FromSeconds(2))
                 {
                     //town watch
-                    if (tempPlayer.UserRole == 15)
+                    if (sessionPlayer.UserRole == 15)
                     {
-                        if (tempPlayer.UserRoleActive == true)
+                        if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (tempPlayer.UserBlocked == false)
+                            if (sessionPlayer.UserBlocked == false)
                             {
-                                result = TownWatch.TownWatchNightTime(targetUser, tempPlayer);
+                                result = TownWatch.TownWatchNightTime(targetUser, sessionPlayer);
                             }
                             else
                             {
@@ -283,7 +282,7 @@ namespace MafiaApplication_WPF_
                             }
                         }
                     }
-                    GameWindow main = new GameWindow(SessionUser, result);
+                    GameWindow main = new GameWindow(sessionPlayer, result);
                     App.Current.MainWindow = main;
                     this.Close();
                     main.Show();
@@ -300,7 +299,7 @@ namespace MafiaApplication_WPF_
         {
             Button B = sender as Button;
             targetUser = PlayersList[0];
-            tempPlayer.UserRoleActive = true;
+            sessionPlayer.UserRoleActive = true;
 
             foreach (var element in PlayersList)
             {

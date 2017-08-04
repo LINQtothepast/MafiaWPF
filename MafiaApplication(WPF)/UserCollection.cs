@@ -12,62 +12,80 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+
 
 namespace MafiaApplication_WPF_
 {
     public class UserCollection
     {
+        private static SqlConnection connect;
+
         //list of users
         private static List<User> UserList = new List<User>();
-        //private static List<User> fifteenPlayerList = new List<User>();
 
-        //add a user
-        public static void addUser(string email, string name)
+        public static User addRegisteredUser(int id, string email, string name)
         {
-            UserList.Add(new User(email, name, 0, "unset", false, false, false, false, false, false,
+            User temp = (new User(id, email, name, 0, "unset", false, false, false, false, false, false,
                 false, "", false, false, false, 0, 0));
-        }
-
-        //add player to fifteen player list
-        public static void addPlayer(User temp)
-        {
             UserList.Add(temp);
+            return temp;
         }
 
-        //return a user
-        /*public static User ReturnAUser(string sessionUser)
-        {
-            User temp = UserList[0];
+        public static void fillListFromDB()
+        { 
+            //connect to database
+            string connetionString = ("user id=Derek;" +
+                                "server=localhost;" +
+                                "Trusted_Connection=yes;" +
+                                "database=Test");
 
-            var tempList =
-                from player in UserList
-                where player.UserName == sessionUser
-                select player;
-
-            
-
-            if (tempList == null)
+            using (connect = new SqlConnection(connetionString))
             {
-                MessageBox.Show("error");
+                connect.Open();
+                string readString = "select * from UserTable";
+                SqlCommand readCommand = new SqlCommand(readString, connect);
+
+                using (SqlDataReader dataRead = readCommand.ExecuteReader())
+                {
+                    if (dataRead != null)
+                    {
+                        while (dataRead.Read())
+                        {
+                            string tempEmail = dataRead["Email"].ToString();
+                            string tempName = dataRead["Name"].ToString();
+                            int tempID = Convert.ToInt32(dataRead["ID"]);
+                            UserList.Add(new User(tempID, tempEmail, tempName, 0, "unset", false, false, false, false, false, false,
+                            false, "", false, false, false, 0, 0));
+                        }
+                    }
+                }
+                connect.Close();
+            }
+        }
+
+        public static User ReturnAUser(string passedUsername)
+        {
+            User temp = new User(0, "tempEmail", "tempName", 0, "unset", false, false, false, false, false, false,
+                            false, "", false, false, false, 0, 0);
+            foreach (User element in UserList)
+            {
+                if (element.UserName == passedUsername)
+                {
+                    temp = element;
+                }
             }
             return temp;
         }
-        */
-
+        
         //return list of users for use elsewhere
         public static List<User> ReturnUserList()
         {
             return UserList;
         }
 
-        //return list of fifteen players for use elsewhere
-        //public static List<User> ReturnPlayerList()
-        //{
-        //    return fifteenPlayerList;
-        //}
-
+        
         //check username to see if it is valid
-
         public static bool checkCredentials(string passedUser)
         {
             bool valid = false;
@@ -79,7 +97,6 @@ namespace MafiaApplication_WPF_
                     valid = true;
                 }
             }
-
             return valid;
         }
     
@@ -104,7 +121,7 @@ namespace MafiaApplication_WPF_
         }
 
         //randomize the list for game integrity purposes
-        public static List<User> RandomizeList(List<User> PlayersList)
+        public List<User> RandomizeList(List<User> PlayersList)
         {
         Random r = new Random();
             for (int i = PlayersList.Count; i > 1; i--)

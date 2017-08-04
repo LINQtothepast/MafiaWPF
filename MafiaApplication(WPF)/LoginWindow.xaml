@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Login" Height="550" Width="700">
     <Grid>
-        <TextBox x:Name="Username_Textbox" GotFocus="TextBox_GotFocus" HorizontalAlignment="Left" Height="23" Margin="290,215,0,0" TextWrapping="Wrap" Text="Enter Name Here" VerticalAlignment="Top" Width="120" />
-        <Label x:Name="label" Content="User Login" HorizontalAlignment="Left" Height="29" Margin="290,157,0,0" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="290,266,0,0" VerticalAlignment="Top" Width="120" Click="Login_Click"/>
-        <Button x:Name="RegisterButton" Content="Register" HorizontalAlignment="Left" Margin="290,309,0,0" VerticalAlignment="Top" Width="120" Click="Register_Click"/>
+        <TextBox x:Name="Username_Textbox" GotFocus="TextBox_GotFocus" HorizontalAlignment="Left" Height="23" Margin="290,247,0,0" TextWrapping="Wrap" Text="Enter Name Here" VerticalAlignment="Top" Width="120" />
+        <Label x:Name="label" Content="User Login" HorizontalAlignment="Left" Height="29" Margin="290,189,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Left" Margin="290,312,0,0" VerticalAlignment="Top" Width="120" Click="Login_Click"/>
+        <Button x:Name="RegisterButton" Content="Register" HorizontalAlignment="Left" Margin="290,355,0,0" VerticalAlignment="Top" Width="120" Click="Register_Click"/>
     </Grid>
 </Window>

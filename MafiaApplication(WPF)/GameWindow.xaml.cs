@@ -20,12 +20,11 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class GameWindow : Window
     {
-        private string sessionUser;
+        private User sessionPlayer;
         private DispatcherTimer gameTimer;
         private TimeSpan timeAmount;
         private TimeSpan sixtySeconds;
         private TimeSpan fifteenSeconds;
-        private User tempPlayer;
         private List<User> PlayersList = new List<User>();
         private int deadCount;
         private User maxVotes;
@@ -33,30 +32,22 @@ namespace MafiaApplication_WPF_
         private string nightResults;
 
         //handles daytime
-        public GameWindow(string passedUser, string passedResult)
+        public GameWindow(User passedPlayer, string passedResult)
         {
             InitializeComponent();
             nightResults = passedResult;
-            sessionUser = passedUser;
+            sessionPlayer = passedPlayer;
             deadCount = 0;
             day += 1;
             CurrentVotes.Text = "";
             PlayersList = UserCollection.ReturnUserList();
 
-            //tempPlayer = UserCollection.ReturnAUser(sessionUser);
-            foreach (var element in PlayersList)
-            {
-                if (element.UserName == sessionUser)
-                {
-                    tempPlayer = element;
-                }
-            }
-            UserNameContent.Content = sessionUser;
+            
+            UserNameContent.Content = passedPlayer.UserName;
 
             //set current day
             DayContent.Content = day.ToString();
             
-
             //check who is dead at start of round
             CheckWhoIsDead();
 
@@ -67,7 +58,7 @@ namespace MafiaApplication_WPF_
             SetRoleDetails();
 
             //find role of current user's player
-            RoleLabel.Content = tempPlayer.UserRoleName;
+            RoleLabel.Content = sessionPlayer.UserRoleName;
 
             //set a timer that counts down and at the end of the timer switches to new page
             timeAmount = TimeSpan.FromSeconds(15);
@@ -118,8 +109,7 @@ namespace MafiaApplication_WPF_
                         }
                     }
                 }
-                
-               
+                              
                 //disable lynching nomination at 15 seconds remaining
                 //and check if anyone is up for vote
                 if (timeAmount == fifteenSeconds)
@@ -172,7 +162,7 @@ namespace MafiaApplication_WPF_
                         element.UserLynchNominationVotes = 0;
                         element.UserLynchVotes = 0;
                     }
-                    NightWindow main = new NightWindow(sessionUser, tempPlayer);
+                    NightWindow main = new NightWindow(sessionPlayer);
                     App.Current.MainWindow = main;
                     this.Close();
                     main.Show();
@@ -187,7 +177,7 @@ namespace MafiaApplication_WPF_
         //set player buttons for voting to a player name
         private void SetPlayerNamesToButtons()
         {
-            PlayersList = UserCollection.RandomizeList(PlayersList);
+            //PlayersList = UserCollection.RandomizeList(PlayersList);
 
             Player1Button.Content = PlayersList[0].UserName;
             Player2Button.Content = PlayersList[1].UserName;
@@ -210,7 +200,7 @@ namespace MafiaApplication_WPF_
         //set description of role and win condition based on session user role
         private void SetRoleDetails()
         {
-            switch (tempPlayer.UserRole)
+            switch (sessionPlayer.UserRole)
             {
                 case 1:
                     RoleDescription.Text = "Each night the Sheriff may check any other player's role at night. "
@@ -363,7 +353,7 @@ namespace MafiaApplication_WPF_
         private void PlayerButton_Click(object sender, RoutedEventArgs e)
         {
             Button B = sender as Button;
-            //if (tempPlayer.UserHasNomVoted == false)
+            //if (sessionPlayer.UserHasNomVoted == false)
             {
                 foreach (var element in PlayersList)
                 {
@@ -372,7 +362,7 @@ namespace MafiaApplication_WPF_
                         element.UserLynchNominationVotes += 1;
                     }
                 }
-                tempPlayer.UserHasNomVoted = true;
+                sessionPlayer.UserHasNomVoted = true;
             }
         }
 
@@ -380,7 +370,7 @@ namespace MafiaApplication_WPF_
         private void VoteButton_Click(object sender, RoutedEventArgs e)
         {
             Button B = sender as Button;
-            //if (tempPlayer.UserHasVoted == false)
+            //if (sessionPlayer.UserHasVoted == false)
             {
                 if (B.Content.ToString() == "Vote Yes")
                 {

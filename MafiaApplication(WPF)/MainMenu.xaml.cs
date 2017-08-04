@@ -21,28 +21,28 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class MainMenu : Window
     {
-        private string sessionUser;
         private List<User> ListOfPlayers = new List<User>();
         private string result = "";
+        private User sessionPlayer;
 
-        public MainMenu(string passedUserLogin)
+        public MainMenu(User passedPlayer)
         {
             UserCollection.AssignRoles();
             UserCollection.ChangeRoleName();
             InitializeComponent();
-            sessionUser = passedUserLogin;
+            sessionPlayer = passedPlayer;
 
             //set listing of current players
             ListOfPlayers = UserCollection.ReturnUserList();
-            //ListOfPlayers = UserCollection.ReturnPlayerList();
 
             var tempList =
                 from player in ListOfPlayers
-                where player.UserBlocked == false
+                orderby player.UserName
                 select new
                 {
                     Name = player.UserName,
                     Email = player.UserEmail,
+                    ID = player.UserID
                 };
 
             this.PlayerListBox.ItemsSource = tempList;
@@ -50,7 +50,7 @@ namespace MafiaApplication_WPF_
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow main = new GameWindow(sessionUser, result);
+            GameWindow main = new GameWindow(sessionPlayer, result);
             App.Current.MainWindow = main;
             this.Close();
             main.Show();

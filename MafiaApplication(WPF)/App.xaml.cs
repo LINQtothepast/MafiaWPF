@@ -19,7 +19,7 @@ namespace MafiaApplication_WPF_
         {
             LoginWindow wnd = new LoginWindow();
 
-            
+            /*
             UserCollection.addUser("a", "Derek");
             UserCollection.addUser("b", "Tara");
             UserCollection.addUser("c", "Rowan");
@@ -35,10 +35,8 @@ namespace MafiaApplication_WPF_
             UserCollection.addUser("m", "Cameron");
             UserCollection.addUser("n", "Lisa");
             UserCollection.addUser("o", "Jill");
-            
-            /*
-            
             */
+
             wnd.Show();
         }
     }

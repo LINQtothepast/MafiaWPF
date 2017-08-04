@@ -21,12 +21,13 @@ namespace MafiaApplication_WPF_
     /// </summary>
     public partial class RegisterWindow : Window
     {
-        private string sessionUser;
         private SqlConnection connect;
+        private User sessionPlayer;
 
         public RegisterWindow()
         {
-            InitializeComponent();        
+            InitializeComponent();
+            UserCollection.fillListFromDB();
         }
 
         //checks if username is already in use
@@ -35,8 +36,22 @@ namespace MafiaApplication_WPF_
             bool validCredentials = false;
             string enteredUsername;
             string enteredEmail;
+            int nextID = 0;
             enteredUsername = Username_Textbox.Text;
             enteredEmail = Email_Textbox.Text;
+
+            List<User> ListOfPlayers = UserCollection.ReturnUserList();
+
+            ListOfPlayers = UserCollection.ReturnUserList();
+
+            foreach (User element in ListOfPlayers)
+            {
+                if (element.UserID > nextID)
+                {
+                    nextID = element.UserID;
+                }
+            }
+
             validCredentials = UserCollection.checkCredentials(enteredUsername);
 
             if (validCredentials == true)
@@ -45,30 +60,28 @@ namespace MafiaApplication_WPF_
             }
             else
             {
-                UserCollection.addUser(enteredEmail, enteredUsername);
-                sessionUser = enteredUsername;
+                sessionPlayer = UserCollection.addRegisteredUser(1, enteredEmail, enteredUsername);
                 string connetionString = null;
                 connetionString = ("user id=Derek;" +
                                     "server=localhost;" +
                                     "Trusted_Connection=yes;" +
-                                    "database=Mafia");
+                                    "database=Test");
 
                 using (connect = new SqlConnection(connetionString))
                 {
                     connect.Open();
-                    string command = "INSERT INTO Users"
-                    + " (Email, Name, Role, RoleName, Status, Blocked, Conned, " +
-                    "Saved, Killed, Armed, VisitedBy, Win, LynchNominationVotes, LynchVotes) " +
-                     "VALUES (@Email, @Name, 0, 'Unset', 0, 0, 0, 0, 0, 0, '', 0, 0, 0)";
+                    string command = "INSERT INTO UserTable"
+                    + " (Email, Name, ID) " +
+                     "VALUES (@Email, @Name, @ID)";
                     SqlCommand insertCommand = new SqlCommand(command, connect);
                     insertCommand.Parameters.AddWithValue("@Email", enteredEmail);
                     insertCommand.Parameters.AddWithValue("@Name", enteredUsername);
+                    insertCommand.Parameters.AddWithValue("@ID", (nextID + 1));
                     insertCommand.ExecuteNonQuery();
                     connect.Close();
                 }
-                    
-                
-                MainMenu main = new MainMenu(sessionUser);
+
+                MainMenu main = new MainMenu(sessionPlayer);
                 App.Current.MainWindow = main;
                 this.Close();
                 main.Show();
