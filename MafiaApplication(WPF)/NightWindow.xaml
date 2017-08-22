@@ -30,6 +30,8 @@
         <Label x:Name="WarningLabel_Copy" Content="or Pass by Ten Seconds" FontSize="16" HorizontalAlignment="Left" Margin="219,126,0,0" BorderThickness="0" VerticalAlignment="Top" Width="176" Height="37"/>
         <Label x:Name="NightLabel" Content="Night : " HorizontalAlignment="Left" Margin="261,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18"/>
         <Label x:Name="NightCount" Content="1" HorizontalAlignment="Left" Margin="351,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="18"/>
+        <Label x:Name="UsernameLabel" Content="Username : " HorizontalAlignment="Left" Margin="25,33,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="12"/>
+        <Label x:Name="Username" Content="N/A" HorizontalAlignment="Left" Margin="92,35,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.32,-0.717" Height="43" Width="148" FontSize="12"/>
 
     </Grid>
 </Window>

@@ -34,8 +34,6 @@ namespace MafiaApplication_WPF_
             UserCollection.fillListFromDB();
             enteredUsername = Username_Textbox.Text;
             sessionPlayer = UserCollection.ReturnAUser(enteredUsername);
-
-            MessageBox.Show(sessionPlayer.UserName);
             
             if (sessionPlayer.UserName == enteredUsername)
             {

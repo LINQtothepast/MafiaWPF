@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
 
 namespace MafiaApplication_WPF_
 {
@@ -27,6 +28,10 @@ namespace MafiaApplication_WPF_
         private TimeSpan timeAmount;
         private static int night = 0;
         private string result = "";
+        private int lowestID = 10000;
+        private bool isBlocked = false;
+        private bool isSaved = false;
+        private bool isKilled = false;
 
         public NightWindow(User passedPlayer)
         {
@@ -34,17 +39,24 @@ namespace MafiaApplication_WPF_
 
             sessionPlayer = passedPlayer;
             PlayersList = UserCollection.ReturnUserList();
-            timeAmount = TimeSpan.FromSeconds(15);
+            timeAmount = TimeSpan.FromSeconds(60);
             RoleLabel.Content = passedPlayer.UserRoleName;
             night += 1;
             NightCount.Content = night.ToString();
+            Username.Content = sessionPlayer.UserName;
+            SqlConnection connect;
+            string connetionString = null;
+            connetionString = ("user id=Derek;" +
+                                "server=localhost;" +
+                                "Trusted_Connection=yes;" +
+                                "database=Test");
 
             gameTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
                 tbTime.Text = timeAmount.ToString("c");
 
                 //enable roles at the very start
-                if (timeAmount == TimeSpan.FromSeconds(15))
+                if (timeAmount == TimeSpan.FromSeconds(60))
                 {
                     Player1Button.Content = PlayersList[0].UserName;
                     Player2Button.Content = PlayersList[1].UserName;
@@ -120,12 +132,28 @@ namespace MafiaApplication_WPF_
 
                 if (timeAmount == TimeSpan.FromSeconds(5))
                 {
-                    //jailor
+                    using (connect = new SqlConnection(connetionString))
+                    {
+                        connect.Open();
+
+                        //read if the passed User is Armed and get their VisitedBy
+                        SqlCommand command = new SqlCommand("Select Blocked FROM [UserStatus] WHERE ID=@ID", connect);
+                        command.Parameters.AddWithValue("@ID", sessionPlayer.UserID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                isBlocked = Convert.ToBoolean(reader["Blocked"]);
+                            }
+                        }
+                        connect.Close();
+                    }
+                        //jailor
                     if (sessionPlayer.UserRole == 4)
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 Jailor.JailorNightTime(targetUser, sessionPlayer);
                             }
@@ -139,12 +167,28 @@ namespace MafiaApplication_WPF_
 
                 if (timeAmount == TimeSpan.FromSeconds(6))
                 {
+                    using (connect = new SqlConnection(connetionString))
+                    {
+                        connect.Open();
+
+                        //read if the passed User is Armed and get their VisitedBy
+                        SqlCommand command = new SqlCommand("Select Blocked FROM [UserStatus] WHERE ID=@ID", connect);
+                        command.Parameters.AddWithValue("@ID", sessionPlayer.UserID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                isBlocked = Convert.ToBoolean(reader["Blocked"]);
+                            }
+                        }
+                        connect.Close();
+                    }
                     //conartist
                     if (sessionPlayer.UserRole == 7)
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 ConArtist.ConNightTime(targetUser, sessionPlayer);
                             }
@@ -159,7 +203,7 @@ namespace MafiaApplication_WPF_
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 Doctor.DocNightTime(targetUser, sessionPlayer);
                             }
@@ -174,7 +218,7 @@ namespace MafiaApplication_WPF_
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 Godfather.GodFatherNightTime(targetUser, sessionPlayer);
                             }
@@ -189,7 +233,7 @@ namespace MafiaApplication_WPF_
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 TownPsycho.TownPsychoNightTime(targetUser, sessionPlayer);
                             }
@@ -204,7 +248,7 @@ namespace MafiaApplication_WPF_
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 Vigilante.VigNightTime(targetUser, sessionPlayer);
                             }
@@ -223,7 +267,7 @@ namespace MafiaApplication_WPF_
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 result = Sheriff.SheriffNightTime(targetUser, sessionPlayer);
                             }
@@ -238,7 +282,7 @@ namespace MafiaApplication_WPF_
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 result = Investigator.InvNightTime(targetUser, sessionPlayer);
                             }
@@ -257,7 +301,7 @@ namespace MafiaApplication_WPF_
                     {
                         if (sessionPlayer.UserRoleActive == true)
                         {
-                            if (sessionPlayer.UserBlocked == false)
+                            if (isBlocked == false)
                             {
                                 result = TownWatch.TownWatchNightTime(targetUser, sessionPlayer);
                             }
@@ -272,13 +316,72 @@ namespace MafiaApplication_WPF_
 
                 if (timeAmount == TimeSpan.Zero)
                 {
+                    gameTimer.Stop();
+                    //find lowest ID number so table is only accessed and updated by that ID
                     foreach (var element in PlayersList)
                     {
-                        if (element.UserSaved != true)
+                        if (lowestID > element.UserID)
                         {
-                            if (element.UserKilled == true)
+                            lowestID = element.UserID;
+                        }
+                    }
+                    if (sessionPlayer.UserID == lowestID)
+                    {
+                        foreach (var element in PlayersList)
+                        {
+                            isKilled = false;
+                            isSaved = false;
+                            using (connect = new SqlConnection(connetionString))
                             {
-                                element.UserStatus = true;
+                                connect.Open();
+
+                                //read if the passed User is Armed and get their VisitedBy
+                                SqlCommand command = new SqlCommand("Select Killed, Saved FROM [UserStatus] WHERE ID=@ID", connect);
+                                command.Parameters.AddWithValue("@ID", element.UserID);
+                                using (SqlDataReader reader = command.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        isKilled = Convert.ToBoolean(reader["Killed"]);
+                                        isSaved = Convert.ToBoolean(reader["Saved"]);
+                                    }
+                                }
+
+
+                                if (isSaved == false)
+                                {
+                                    if (isKilled == true)
+                                    {
+                                        //element.UserStatus = true;
+                                        using (SqlCommand cmd =
+                                            new SqlCommand("UPDATE UserStatus SET Status=@Status" +
+                                            " WHERE Id=@Id", connect))
+                                        {
+                                            cmd.Parameters.AddWithValue("@Id", element.UserID);
+                                            cmd.Parameters.AddWithValue("@Status", 1);
+
+                                            int rows = cmd.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+
+                                using (SqlCommand cmd =
+                                    new SqlCommand("UPDATE UserStatus SET " +
+                                    "Blocked=@Blocked, Conned=@Conned, Saved=@Saved, Killed=@Killed, " +
+                                    "Armed=@Armed, VisitedBy=@VisitedBy" +
+                                    " WHERE Id=@Id", connect))
+                                {
+                                    cmd.Parameters.AddWithValue("@Id", element.UserID);
+                                    cmd.Parameters.AddWithValue("@Blocked", 0);
+                                    cmd.Parameters.AddWithValue("@Conned", 0);
+                                    cmd.Parameters.AddWithValue("@Saved", 0);
+                                    cmd.Parameters.AddWithValue("@Killed", 0);
+                                    cmd.Parameters.AddWithValue("@Armed", 0);
+                                    cmd.Parameters.AddWithValue("@VisitedBy", "");
+
+                                    int rows = cmd.ExecuteNonQuery();
+                                    connect.Close();
+                                }
                             }
                         }
                     }

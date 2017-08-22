@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SqlClient;
+
 
 namespace MafiaApplication_WPF_
 {
@@ -30,6 +32,7 @@ namespace MafiaApplication_WPF_
         private User maxVotes;
         private static int day = 0;
         private string nightResults;
+        private int retVotes = 0;
 
         //handles daytime
         public GameWindow(User passedPlayer, string passedResult)
@@ -40,9 +43,60 @@ namespace MafiaApplication_WPF_
             deadCount = 0;
             day += 1;
             CurrentVotes.Text = "";
+            SqlConnection connect;
+            string connetionString = null;
+            connetionString = ("user id=Derek;" +
+                                "server=localhost;" +
+                                "Trusted_Connection=yes;" +
+                                "database=Test");
+
             PlayersList = UserCollection.ReturnUserList();
 
-            
+            if (day == 1)
+            {
+                foreach (var element in PlayersList)
+                {
+                    using (connect = new SqlConnection(connetionString))
+                    {
+                        connect.Open();
+
+                        //read if the passed User is Armed and get their VisitedBy
+                        SqlCommand command = new SqlCommand("Select Role, RoleName FROM [UserStatus] WHERE ID=@ID", connect);
+                        command.Parameters.AddWithValue("@ID", element.UserID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                element.UserRole = Convert.ToInt32(reader["Role"]);
+                                element.UserRoleName = reader["RoleName"].ToString();
+                            }
+                        }
+                        connect.Close();
+                    }
+                }
+            }
+
+            foreach (var element in PlayersList)
+            {
+                using (connect = new SqlConnection(connetionString))
+                {
+                    connect.Open();
+
+                    //read if the passed User is Armed and get their VisitedBy
+                    SqlCommand command = new SqlCommand("Select Status FROM [UserStatus] WHERE ID=@ID", connect);
+                    command.Parameters.AddWithValue("@ID", element.UserID);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            element.UserStatus = Convert.ToBoolean(reader["Status"]);
+                        }
+                    }
+                    connect.Close();
+                }
+            }
+
+
             UserNameContent.Content = passedPlayer.UserName;
 
             //set current day
@@ -142,6 +196,19 @@ namespace MafiaApplication_WPF_
                 //each second after 15 seconds keep current Lynch Vote Displayed
                 if (timeAmount < fifteenSeconds)
                 {
+                    using (connect = new SqlConnection(connetionString))
+                    {
+                        connect.Open();
+                        SqlCommand command = new SqlCommand("Select LynchVotes FROM [LynchTable] WHERE ID=@ID", connect);
+                        command.Parameters.AddWithValue("@ID", maxVotes.UserID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                maxVotes.UserLynchVotes = Convert.ToInt32(reader["LynchVotes"]);
+                            }
+                        }
+                    }
                     CurrentVotes.Text = maxVotes.UserName + " " + maxVotes.UserLynchVotes.ToString();
                 }
 
@@ -177,7 +244,10 @@ namespace MafiaApplication_WPF_
         //set player buttons for voting to a player name
         private void SetPlayerNamesToButtons()
         {
-            //PlayersList = UserCollection.RandomizeList(PlayersList);
+            if (day == 1)
+            {
+                PlayersList = UserCollection.RandomizeList(PlayersList);
+            }
 
             Player1Button.Content = PlayersList[0].UserName;
             Player2Button.Content = PlayersList[1].UserName;
@@ -352,6 +422,12 @@ namespace MafiaApplication_WPF_
         //get the vote to nominate someone for lynch from button click and properly assign it to that person
         private void PlayerButton_Click(object sender, RoutedEventArgs e)
         {
+            SqlConnection connect;
+            string connetionString = null;
+            connetionString = ("user id=Derek;" +
+                                "server=localhost;" +
+                                "Trusted_Connection=yes;" +
+                                "database=Test");
             Button B = sender as Button;
             //if (sessionPlayer.UserHasNomVoted == false)
             {
@@ -360,6 +436,33 @@ namespace MafiaApplication_WPF_
                     if (B.Content.ToString() == element.UserName)
                     {
                         element.UserLynchNominationVotes += 1;
+                        using (connect = new SqlConnection(connetionString))
+                        {
+                            connect.Open();
+
+                            //read the number of Nomination votes
+                            SqlCommand command = new SqlCommand("Select NominationVotes FROM [LynchTable] WHERE ID=@ID", connect);
+                            command.Parameters.AddWithValue("@ID", element.UserID);
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    retVotes = Convert.ToInt32(reader["NominationVotes"]);
+                                }
+                            }
+                            retVotes += 1;
+
+                            using (SqlCommand cmd =
+                                            new SqlCommand("UPDATE LynchTable SET NominationVotes=@NominationVotes" +
+                                            " WHERE Id=@Id", connect))
+                            {
+                                cmd.Parameters.AddWithValue("@Id", element.UserID);
+                                cmd.Parameters.AddWithValue("@NominationVotes", retVotes);
+
+                                int rows = cmd.ExecuteNonQuery();
+                            }
+                            connect.Close();
+                        }
                     }
                 }
                 sessionPlayer.UserHasNomVoted = true;
@@ -369,19 +472,48 @@ namespace MafiaApplication_WPF_
         //get the yes or no vote and assign it to person up for lynching
         private void VoteButton_Click(object sender, RoutedEventArgs e)
         {
+            SqlConnection connect;
+            string connetionString = null;
+            connetionString = ("user id=Derek;" +
+                                "server=localhost;" +
+                                "Trusted_Connection=yes;" +
+                                "database=Test");
             Button B = sender as Button;
-            //if (sessionPlayer.UserHasVoted == false)
+
+            using (connect = new SqlConnection(connetionString))
             {
-                if (B.Content.ToString() == "Vote Yes")
+                connect.Open();
+
+                //read if the passed User is Armed and get their VisitedBy
+                SqlCommand command = new SqlCommand("Select LynchVotes FROM [LynchTable] WHERE ID=@ID", connect);
+                command.Parameters.AddWithValue("@ID", maxVotes.UserID);
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    maxVotes.UserLynchVotes += 1;
-                    //MessageBox.Show(maxVotes.UserLynchVotes.ToString());
+                    if (reader.Read())
+                    {
+                        retVotes = Convert.ToInt32(reader["LynchVotes"]);
+                    }
                 }
                 if (B.Content.ToString() == "Vote No")
                 {
-                    maxVotes.UserLynchVotes -= 1;
+                    retVotes -= 1;
                 }
-            }  
+                else
+                {
+                    retVotes += 1;
+                }
+
+                using (SqlCommand cmd =
+                                new SqlCommand("UPDATE LynchTable SET LynchVotes=@LynchVotes" +
+                                " WHERE Id=@Id", connect))
+                {
+                    cmd.Parameters.AddWithValue("@Id", maxVotes.UserID);
+                    cmd.Parameters.AddWithValue("@LynchVotes", retVotes);
+
+                    int rows = cmd.ExecuteNonQuery();
+                }
+                connect.Close();
+            }
         }
     }
 }

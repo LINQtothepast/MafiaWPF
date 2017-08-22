@@ -121,7 +121,7 @@ namespace MafiaApplication_WPF_
         }
 
         //randomize the list for game integrity purposes
-        public List<User> RandomizeList(List<User> PlayersList)
+        public static List<User> RandomizeList(List<User> PlayersList)
         {
         Random r = new Random();
             for (int i = PlayersList.Count; i > 1; i--)

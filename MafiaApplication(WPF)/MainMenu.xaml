@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="Main Menu" Height="550" Width="700">
     <Grid>
-        <Button x:Name="button" Content="Next" HorizontalAlignment="Left" Margin="319,475,0,0" VerticalAlignment="Top" Width="76" Height="25" Click="button_Click"/>
-        <DataGrid x:Name="PlayerListBox"  SelectionMode="Single" SelectionUnit="Cell" Margin="22,44,0,0" VerticalAlignment="Top" Height="400" HorizontalAlignment="Left" Width="650" />
+        <DataGrid x:Name="PlayerListBox"  SelectionMode="Single" SelectionUnit="Cell" Margin="22,44,0,0" VerticalAlignment="Top" Height="458" HorizontalAlignment="Left" Width="650" />
         <Label x:Name="label" Content="Current Users In Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="29" Width="162"/>
+        <Label x:Name="ClockLabel" Content="Current Time : " HorizontalAlignment="Left" Margin="417,10,0,0" VerticalAlignment="Top" Height="29" Width="162"/>
+        <Label x:Name="Clock" Content="N/A" HorizontalAlignment="Left" Margin="510,10,0,0" VerticalAlignment="Top" Height="29" Width="162"/>
+        <Label x:Name="test" Content="N/A" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Height="29" Width="162"/>
     </Grid>
 </Window>
